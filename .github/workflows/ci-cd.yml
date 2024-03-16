@@ -25,6 +25,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
       - name: Create AWS Lambda Function
+        working-directory: ./TechChallengeFiapLambda
         run: |
           aws lambda create-function --function-name TechChallengeLambdaFunction --runtime java21 --handler com.postech.techchallenge.PostHandler::handleRequest --role arn:aws:iam::891377229627:role/lambda-ex --zip-file fileb://build/libs/TechChallengeFiapLambda.jar
         continue-on-error: true  

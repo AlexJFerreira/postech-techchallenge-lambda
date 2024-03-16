@@ -1,0 +1,23 @@
+plugins {
+    id 'java'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'com.amazonaws:aws-lambda-java-core:1.2.2'
+    implementation 'com.amazonaws:aws-lambda-java-events:3.11.0'
+    implementation 'com.google.code.gson:gson:2.10.1'
+    implementation 'software.amazon.awssdk:cognitoidentityprovider:2.25.10'
+    implementation 'software.amazon.awssdk:cognitoidentity:2.25.10'
+    testImplementation 'software.amazon.awssdk:apache-client:2.25.10'
+    implementation 'com.amazonaws:aws-java-sdk-kms:1.12.680'
+}
+
+
+
+
+sourceCompatibility = 21
+targetCompatibility = 21

@@ -27,8 +27,10 @@ jobs:
       - name: Create AWS Lambda Function
         working-directory: ./TechChallengeFiapLambda
         run: |
-          aws lambda create-function --function-name TechChallengeLambdaFunction --runtime java21 --handler com.postech.techchallenge.PostHandler::handleRequest --role arn:aws:iam::891377229627:role/lambda-ex --zip-file fileb://build/libs/TechChallengeFiapLambda.jar
+          aws lambda create-function --function-name TechChallengeLambdaFunction --runtime java21 --handler com.postech.techchallenge.PostHandler::handleRequest --role arn:aws:iam::891377229627:role/tech-challenge-fiap-lambd-TechChallengeLambdaFuncti-v5RKdAg7u7jf
+ --zip-file fileb://build/libs/TechChallengeFiapLambda.jar
         continue-on-error: true  
       - name: Update Lambda Function    
+        working-directory: ./TechChallengeFiapLambda
         run: aws lambda update-function-code --function-name TechChallengeLambdaFunction --zip-file fileb://build/libs/TechChallengeFiapLambda.jar
 

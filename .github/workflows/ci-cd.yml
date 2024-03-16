@@ -14,9 +14,7 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
       - name: Build Project
-        run: |
-          cd TechChallengeFiapLambda
-          ./gradlew build
+        run: ./TechChallengeFiapLambda/gradlew build
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v3
         with:

@@ -10,6 +10,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.postech.techchallenge.service.CognitoUserService;
+import com.postech.techchallenge.util.ErrorResponse;
 import java.util.HashMap;
 import java.util.Map;
 import software.amazon.awssdk.awscore.exception.AwsServiceException;
@@ -45,6 +46,7 @@ public class LoginUserHandler implements RequestHandler<APIGatewayProxyRequestEv
         loginDetails = JsonParser.parseString(getAnonymousUser()).getAsJsonObject();
         logger.log("Anonymous User: " +  loginDetails);
       } else {
+        logger.log("Registered User login");
         loginDetails = JsonParser.parseString(input.getBody()).getAsJsonObject();
       }
 

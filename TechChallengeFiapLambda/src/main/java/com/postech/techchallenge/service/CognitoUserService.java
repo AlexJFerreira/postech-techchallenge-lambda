@@ -2,14 +2,25 @@ package com.postech.techchallenge.service;
 
 import com.google.gson.JsonObject;
 import com.postech.techchallenge.util.Constants;
-import software.amazon.awssdk.regions.Region;
-import software.amazon.awssdk.services.cognitoidentityprovider.CognitoIdentityProviderClient;
-import software.amazon.awssdk.services.cognitoidentityprovider.model.*;
-
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
-import java.nio.charset.StandardCharsets;
-import java.util.*;
+import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.cognitoidentityprovider.CognitoIdentityProviderClient;
+import software.amazon.awssdk.services.cognitoidentityprovider.model.AttributeType;
+import software.amazon.awssdk.services.cognitoidentityprovider.model.AuthFlowType;
+import software.amazon.awssdk.services.cognitoidentityprovider.model.AuthenticationResultType;
+import software.amazon.awssdk.services.cognitoidentityprovider.model.ConfirmSignUpRequest;
+import software.amazon.awssdk.services.cognitoidentityprovider.model.ConfirmSignUpResponse;
+import software.amazon.awssdk.services.cognitoidentityprovider.model.InitiateAuthRequest;
+import software.amazon.awssdk.services.cognitoidentityprovider.model.InitiateAuthResponse;
+import software.amazon.awssdk.services.cognitoidentityprovider.model.SignUpRequest;
+import software.amazon.awssdk.services.cognitoidentityprovider.model.SignUpResponse;
 
 public class CognitoUserService {
   private final CognitoIdentityProviderClient cognitoIdentityProviderClient;
@@ -108,10 +119,10 @@ public class CognitoUserService {
     String password = loginDetails.get("password").getAsString();
     String generatedSecretHash = calculateSecretHash(appClientId, appClientSecret, email);
 
-    Map<String, String> authParams = new HashMap<String, String>(){
+    Map<String, String> authParams = new HashMap<>() {
       {
         put("USERNAME", email);
-        put("PASSWORD",password);
+        put("PASSWORD", password);
         put("SECRET_HASH", generatedSecretHash);
       }
     };
@@ -121,7 +132,7 @@ public class CognitoUserService {
         .authFlow(AuthFlowType.USER_PASSWORD_AUTH)
         .authParameters(authParams)
         .build();
-    InitiateAuthResponse initiateAuthResponse =  cognitoIdentityProviderClient.initiateAuth(initiateAuthRequest);
+    InitiateAuthResponse initiateAuthResponse = cognitoIdentityProviderClient.initiateAuth(initiateAuthRequest);
     AuthenticationResultType authenticationResultType = initiateAuthResponse.authenticationResult();
 
     JsonObject loginUserResult = new JsonObject();
@@ -132,43 +143,6 @@ public class CognitoUserService {
     loginUserResult.addProperty("refreshToken", authenticationResultType.refreshToken());
 
     return loginUserResult;
-
-  }
-
-  public JsonObject addUserToGroup(String groupName, String userName, String userPoolId) {
-    AdminAddUserToGroupRequest adminAddUserToGroupRequest = AdminAddUserToGroupRequest.builder()
-        .groupName(groupName)
-        .username(userName)
-        .userPoolId(userPoolId)
-        .build();
-
-    AdminAddUserToGroupResponse adminAddUserToGroupResponse =
-        cognitoIdentityProviderClient.adminAddUserToGroup(adminAddUserToGroupRequest);
-
-    JsonObject addUserToGroupResponse = new JsonObject();
-    addUserToGroupResponse.addProperty("isSuccessful", adminAddUserToGroupResponse.sdkHttpResponse().isSuccessful());
-    addUserToGroupResponse.addProperty("statusCode", adminAddUserToGroupResponse.sdkHttpResponse().statusCode());
-
-    return addUserToGroupResponse;
-  }
-
-  public JsonObject getUser(String accessToken) {
-    GetUserRequest getUserRequest = GetUserRequest.builder().accessToken(accessToken).build();
-    GetUserResponse getUserResponse = cognitoIdentityProviderClient.getUser(getUserRequest);
-
-    JsonObject getUserResult = new JsonObject();
-    getUserResult.addProperty("isSuccessful", getUserResponse.sdkHttpResponse().isSuccessful());
-    getUserResult.addProperty("statusCode", getUserResponse.sdkHttpResponse().statusCode());
-
-    List<AttributeType> userAttributes = getUserResponse.userAttributes();
-    JsonObject userDetails = new JsonObject();
-    userAttributes.stream().forEach((attribute) -> {
-      userDetails.addProperty(attribute.name(), attribute.value());
-    });
-
-    getUserResult.add("user", userDetails);
-
-    return getUserResult;
 
   }
 

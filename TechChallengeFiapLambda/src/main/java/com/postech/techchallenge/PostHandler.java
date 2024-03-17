@@ -10,15 +10,9 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.postech.techchallenge.service.CognitoUserService;
-import com.postech.techchallenge.util.EncryptUtils;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
+import com.postech.techchallenge.util.ErrorResponse;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
-import java.util.stream.Collectors;
 import software.amazon.awssdk.awscore.exception.AwsServiceException;
 
 /**
@@ -54,8 +48,6 @@ public class PostHandler implements RequestHandler<APIGatewayProxyRequestEvent, 
 
     String requestBody = input.getBody();
     LambdaLogger logger  = context.getLogger();
-    logger.log("Client: " +  appClientId);
-    logger.log("Secret: " +  appClientSecret);
 
     JsonObject userDetails = null;
 

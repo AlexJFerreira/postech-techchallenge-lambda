@@ -1,4 +1,4 @@
-package com.postech.techchallenge;
+package com.postech.techchallenge.util;
 
 public class ErrorResponse {
   private String message;

@@ -18,21 +18,21 @@ import software.amazon.awssdk.awscore.exception.AwsServiceException;
 /**
  * Handler for requests to Lambda function.
  */
-public class PostHandler implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
+public class RegisterUser implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
 
   private final CognitoUserService cognitoUserService;
   private final String appClientId;
   private final String appClientSecret;
 
-  public PostHandler(CognitoUserService cognitoUserService,
-                           String appClientId,
-                           String appClientSecret) {
+  public RegisterUser(CognitoUserService cognitoUserService,
+                      String appClientId,
+                      String appClientSecret) {
     this.cognitoUserService = cognitoUserService;
     this.appClientId = appClientId;
     this.appClientSecret = appClientSecret;
   }
 
-  public PostHandler() {
+  public RegisterUser() {
     this.cognitoUserService  = new CognitoUserService(System.getenv("AWS_REGION"));
     this.appClientId = System.getenv("MY_COGNITO_POOL_APP_CLIENT_ID");//EncryptUtils.decryptKey("MY_COGNITO_POOL_APP_CLIENT_ID");
     this.appClientSecret = System.getenv("MY_COGNITO_POOL_APP_CLIENT_SECRET");//EncryptUtils.decryptKey("MY_COGNITO_POOL_APP_CLIENT_SECRET");

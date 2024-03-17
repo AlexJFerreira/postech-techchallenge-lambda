@@ -19,16 +19,16 @@ Globals:
         MY_COGNITO_POOL_APP_CLIENT_SECRET: 640vrh3q5srb3pijsv9vtadutmvtm1vg4dp2uqt7ns7ftd03s9c
         MY_COGNITO_POOL_ID: us-east-1_IZufuaIFG
 Resources:
-  TechChallengeLambdaFunction:
+  RegisterUserHandlerFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
       CodeUri: TechChallengeFiapLambda
-      Handler: com.postech.techchallenge.PostHandler::handleRequest
+      Handler: com.postech.techchallenge.RegisterUser::handleRequest
       Events:
         Authorize:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /authorize
+            Path: /registration
             Method: post
   ConfirmUserHandlerFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
@@ -39,7 +39,7 @@ Resources:
         ConfirmUser:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /confirm
+            Path: /confirmation
             Method: post
   LoginUserHandlerFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
@@ -50,5 +50,5 @@ Resources:
         LoginUser:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /login
+            Path: /token
             Method: post

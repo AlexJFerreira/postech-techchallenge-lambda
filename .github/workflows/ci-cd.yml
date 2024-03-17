@@ -28,4 +28,4 @@ jobs:
       - name: Sam Build
         run: sam build --use-container
       - name: Sam Dploy
-        run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --stack-name tech-challenge-fiap-lambda --s3-bucket ##s3-bucket## --capabilities CAPABILITY_IAM --region ##region##
+        run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --stack-name tech-challenge-fiap-lambda --s3-bucket aws-sam-cli-managed-default-samclisourcebucket-pq38cxh0oio0 --capabilities CAPABILITY_IAM --region us-east-1
